@@ -1,6 +1,9 @@
 from athletes.models import Athletes 
 from rest_framework import serializers
 
+class FileUploadSerializer(serializers.Serializer):
+    file = serializers.FileField()
+
 class AthleteSerializer (serializers.ModelSerializer):
     class Meta:
         model = Athletes

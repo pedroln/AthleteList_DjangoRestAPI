@@ -1,12 +1,51 @@
 from django.shortcuts import render
 from athletes.models import Athletes
 from athletes.serializers import AthleteSerializer
+from athletes.serializers import FileUploadSerializer
 from rest_framework.decorators import api_view 
 from rest_framework.response import Response
+from rest_framework import generics
 from rest_framework import status
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.generics import ListAPIView
 from django_filters.rest_framework import DjangoFilterBackend
+import io, csv, pandas as pd
+
+class UploadFileView(generics.CreateAPIView):
+    serializer_class = FileUploadSerializer
+    
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        file = serializer.validated_data['file']
+        reader = pd.read_csv(file, delimiter = ',')
+        athletes = []
+        
+        for _, row in reader.iterrows():
+            new_file = Athletes(
+                        Name = row['Name'],
+                        Sex = row['Sex'],
+                        Age = row['Age'],
+                        Height = row['Height'],
+                        Weight = row['Weight'],
+                        Team = row['Team'],
+                        NOC = row['NOC'],
+                        Games = row['Games'],
+                        Year = row['Year'],
+                        Season = row['Season'],
+                        City = row['City'],
+                        Sport = row['Sport'],
+                        Event = row['Event'],
+                        Medal = row['Medal'],
+                       )
+            athletes.append(new_file)  
+            if len(athletes) > 10000:
+                Athletes.objects.bulk_create(athletes)
+                athletes = []
+        if(athletes):
+            Athletes.objects.bulk_create(athletes)
+        return Response({"status": "success"},
+                        status.HTTP_201_CREATED)
 
 class AthletesListView(ListAPIView):
     queryset = Athletes.objects.all()
@@ -49,7 +88,7 @@ def AthletePost(request):
         if (requestSex != 'M' and requestSex != 'F'): #Checar se o sexo inserido é valido dentre as opções, se algo diferente for inserido retorna exceção
             return Response("Sexo inserido inválido, necessário que o sexo inserido seja Masculino (M) ou Feminino(F)", 
             status = status.HTTP_400_BAD_REQUEST)
-        elif (requestMedal != 'Gold' and requestMedal != 'Silver' and Medal != 'Bronze' and Medal != 'NA'): #Checar se a informação da medalha é válida dentre as opções
+        elif (requestMedal != 'Gold' and requestMedal != 'Silver' and requestMedal != 'Bronze' and requestMedal != 'NA'): #Checar se a informação da medalha é válida dentre as opções
             return Response("Tipo de Medalha inserida inválida, necessário que o sexo inserido seja Ouro(Gold), Prata(Silver) ou Bronze(Bronze)", 
             status = status.HTTP_400_BAD_REQUEST)
         elif (requestSeason != 'Summer' and requestSeason != 'Winter'): #Checar se a informação da estação dos jogos é válida, os jogos só se passam no verão/inverno
