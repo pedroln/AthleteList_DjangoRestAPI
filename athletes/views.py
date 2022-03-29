@@ -38,13 +38,13 @@ class UploadFileView(generics.CreateAPIView):
                         Event = row['Event'],
                         Medal = row['Medal'],
                        )
-            athletes.append(new_file)  
+            athletes.append(new_file)
             if len(athletes) > 10000:
                 Athletes.objects.bulk_create(athletes)
                 athletes = []
         if(athletes):
             Athletes.objects.bulk_create(athletes)
-        return Response({"status": "success"},
+        return Response({"status": "Atletas adicionados ao banco de dados com sucesso"},
                         status.HTTP_201_CREATED)
 
 class AthletesListView(ListAPIView):
@@ -69,27 +69,29 @@ def AthletePost(request):
     serializer = AthleteSerializer(data = request.data)
     if serializer.is_valid():
         
-        requestName = request.data.get('Name')
+        requestName = request.data.get('Name') #Campo Name da requisição
         requestSex = request.data.get('Sex') #Campo Sex da requisição
-        requestAge = request.data.get('Age')
-        requestHeight = request.data.get('Height')
-        requestWeight = request.data.get('Weight')
-        requestTeam = request.data.get('Team')
-        requestNOC = request.data.get('NOC')
-        requestGames = request.data.get('Games')
+        requestAge = request.data.get('Age') #Campo Age da requisição
+        requestHeight = request.data.get('Height') #Campo Height da requisição
+        requestWeight = request.data.get('Weight') #Campo Weight da requisição
+        requestTeam = request.data.get('Team') #Campo Team da requisição
+        requestNOC = request.data.get('NOC') #Campo NOC da requisição
+        requestGames = request.data.get('Games') #Campo Games da requisição
         requestYear = request.data.get('Year') #Campo Year da Requisição
         requestSeason = request.data.get('Season') #Campo Season da Requisição
-        requestCity = request.data.get('City')
-        requestSport = request.data.get('Sport')
-        requestEvent = request.data.get('Event')
+        requestCity = request.data.get('City') #Campo City da requisição
+        requestSport = request.data.get('Sport') #Campo Sport da requisição
+        requestEvent = request.data.get('Event') #Campo Event da requisição
         requestMedal = request.data.get('Medal') #Campo Medal da requisição
+
+        
 
         #Validação adicional de alguns campos
         if (requestSex != 'M' and requestSex != 'F'): #Checar se o sexo inserido é valido dentre as opções, se algo diferente for inserido retorna exceção
             return Response("Sexo inserido inválido, necessário que o sexo inserido seja Masculino (M) ou Feminino(F)", 
             status = status.HTTP_400_BAD_REQUEST)
-        elif (requestMedal != 'Gold' and requestMedal != 'Silver' and requestMedal != 'Bronze' and requestMedal != 'NA'): #Checar se a informação da medalha é válida dentre as opções
-            return Response("Tipo de Medalha inserida inválida, necessário que o sexo inserido seja Ouro(Gold), Prata(Silver) ou Bronze(Bronze)", 
+        elif (requestMedal != None and requestMedal != 'Gold' and requestMedal != 'Silver' and requestMedal != 'Bronze'): #Checar se a informação da medalha é válida dentre as opções
+            return Response("Tipo de Medalha inserida inválida, necessário que a medalha inserida seja Ouro(Gold), Prata(Silver) ou Bronze(Bronze)", 
             status = status.HTTP_400_BAD_REQUEST)
         elif (requestSeason != 'Summer' and requestSeason != 'Winter'): #Checar se a informação da estação dos jogos é válida, os jogos só se passam no verão/inverno
             return Response("Estação dos Jogos inserida inválida, necessário que seja Verão(Summer) ou Inverno(Winter)", 
