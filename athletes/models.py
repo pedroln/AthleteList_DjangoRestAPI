@@ -17,4 +17,10 @@ class Athletes(models.Model):
     Event = models.CharField("Event", max_length = 255)
     Medal = models.CharField("Medal", max_length = 255, blank = True, default = "nan")
 
+
+class Regions(models.Model):
+    NOC = models.CharField("NOC", max_length = 255)
+    Region = models.CharField("Region", max_length = 255)
+    Notes = models.CharField("Notes" , max_length = 255)
+
     

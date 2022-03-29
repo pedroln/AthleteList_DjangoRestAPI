@@ -1,7 +1,6 @@
 from django.shortcuts import render
-from athletes.models import Athletes
-from athletes.serializers import AthleteSerializer
-from athletes.serializers import FileUploadSerializer
+from athletes.models import Athletes, Regions
+from athletes.serializers import AthleteSerializer, FileUploadSerializer
 from rest_framework.decorators import api_view 
 from rest_framework.response import Response
 from rest_framework import generics
@@ -11,7 +10,7 @@ from rest_framework.generics import ListAPIView
 from django_filters.rest_framework import DjangoFilterBackend
 import io, csv, pandas as pd
 
-class UploadFileView(generics.CreateAPIView):
+class UploadAthletesView(generics.CreateAPIView):
     serializer_class = FileUploadSerializer
     
     def post(self, request, *args, **kwargs):
@@ -22,7 +21,7 @@ class UploadFileView(generics.CreateAPIView):
         athletes = []
         
         for _, row in reader.iterrows():
-            new_file = Athletes(
+            new_athlete = Athletes(
                         Name = row['Name'],
                         Sex = row['Sex'],
                         Age = row['Age'],
@@ -38,13 +37,34 @@ class UploadFileView(generics.CreateAPIView):
                         Event = row['Event'],
                         Medal = row['Medal'],
                        )
-            athletes.append(new_file)
+            athletes.append(new_athlete)
             if len(athletes) > 10000:
                 Athletes.objects.bulk_create(athletes)
                 athletes = []
         if(athletes):
             Athletes.objects.bulk_create(athletes)
         return Response({"status": "Atletas adicionados ao banco de dados com sucesso"},
+                        status.HTTP_201_CREATED)
+
+class UploadRegionsView(generics.CreateAPIView):
+    serializer_class = FileUploadSerializer
+    
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        file = serializer.validated_data['file']
+        reader = pd.read_csv(file, delimiter = ',')
+        
+        
+        for _, row in reader.iterrows():
+            new_region = Regions(
+                        NOC = row['NOC'],
+                        Region = row['region'],
+                        Notes = row['notes']
+                       )
+           
+            new_region.save()
+        return Response({"status": "Regiões adicionadas ao banco de dados com sucesso"},
                         status.HTTP_201_CREATED)
 
 class AthletesListView(ListAPIView):
