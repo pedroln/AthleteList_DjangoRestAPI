@@ -9,7 +9,7 @@ from rest_framework import status
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.generics import ListAPIView
 from django_filters.rest_framework import DjangoFilterBackend
-import io, csv, pandas as pd
+import pandas as pd
 
 class UploadFileView(generics.CreateAPIView):
     serializer_class = FileUploadSerializer
@@ -22,7 +22,7 @@ class UploadFileView(generics.CreateAPIView):
         athletes = []
         
         for _, row in reader.iterrows():
-            new_file = Athletes(
+            new_athlete = Athletes(
                         Name = row['Name'],
                         Sex = row['Sex'],
                         Age = row['Age'],
@@ -38,7 +38,7 @@ class UploadFileView(generics.CreateAPIView):
                         Event = row['Event'],
                         Medal = row['Medal'],
                        )
-            athletes.append(new_file)
+            athletes.append(new_athlete)
             if len(athletes) > 10000:
                 Athletes.objects.bulk_create(athletes)
                 athletes = []
@@ -138,7 +138,7 @@ def CheckRepeatedAthlete(request):
         Year = requestYear, Season = requestSeason, City = requestCity, Sport = requestSport,
         Event = requestEvent, Medal = requestMedal)
         
-        if (athletes.count() != 0): #O count serve para checar se retornou algum atleta com estas informações se for é porque nenhum atleta foi inserido com estas infos ainda
+        if (athletes.count() != 0): #O count serve para checar se retornou algum atleta com estas informações se for 0 é porque nenhum atleta foi inserido com estas infos ainda
             return Response("Atleta com estas informações já está inserido na base de dados", 
             status = status.HTTP_400_BAD_REQUEST)
 
