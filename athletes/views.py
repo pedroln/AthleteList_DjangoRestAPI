@@ -84,6 +84,12 @@ def AthleteList(request):
     serializer = AthleteSerializer(result_page, many= True)
     return paginator.get_paginated_response(serializer.data)
 
+@api_view(['GET'])
+def AthleteById(request, pk):
+    athleteToFind = Athletes.objects.get(id = pk)
+    serializer = AthleteSerializer(athleteToFind)
+    return Response(serializer.data)
+
 @api_view(['POST'])
 def AthletePost(request):
     serializer = AthleteSerializer(data = request.data)
@@ -120,6 +126,8 @@ def ValidateFields(request):
     requestYear = request.data.get('Year') #Campo Year da Requisição
     requestSeason = request.data.get('Season') #Campo Season da Requisição
     requestMedal = request.data.get('Medal') #Campo Medal da requisição
+    requestNOC = request.data.get('NOC') #Campo NOC da requisição
+    region = Regions.objects.filter(NOC = requestNOC)
 
     #Validação adicional de alguns campos
     if (requestSex != 'M' and requestSex != 'F'): #Checar se o sexo inserido é valido dentre as opções, se algo diferente for inserido retorna exceção
@@ -133,6 +141,9 @@ def ValidateFields(request):
         status = status.HTTP_400_BAD_REQUEST)
     elif (int(requestYear) > 2022): #Checar se o ano é válido, só aceitar anos que sejam do ano atual para trás
         return Response("Ano inserido inválido, necessário que o ano inserido seja menor ou igual ao ano atual (2022)", 
+        status = status.HTTP_400_BAD_REQUEST)
+    elif (region.count() == 0): #Checar se a sigla da nacionalidade existe, ou seja, se ela se encontra no arquivo noc_regions.csv
+        return Response("Sigla da nacionalidade inserida inválida, para saber qual siglas são aceitas na nacionalidade, checar o arquivo noc_regions.csv (campo Region)", 
         status = status.HTTP_400_BAD_REQUEST)
 
 def CheckRepeatedAthlete(request):
