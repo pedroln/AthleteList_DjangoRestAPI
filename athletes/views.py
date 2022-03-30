@@ -74,22 +74,7 @@ class AthletesListView(ListAPIView):
     pagination_class = PageNumberPagination
     pagination_class.page_size = 50
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
-    filterset_fields = ('Name', 'Sex', 'Age', 'Height', 'Weight', 'Team', 'NOC', 'Games', 'Year', 'Season', 'City', 'Sport', 'Event', 'Medal')
-
-@api_view(['GET'])
-def AthleteList(request):
-    paginator = PageNumberPagination()
-    paginator.page_size = 50
-    athletes = Athletes.objects.all()
-    result_page = paginator.paginate_queryset(athletes, request)
-    serializer = AthleteSerializer(result_page, many= True)
-    return paginator.get_paginated_response(serializer.data)
-
-@api_view(['GET'])
-def AthleteById(request, pk):
-    athleteToFind = Athletes.objects.get(id = pk)
-    serializer = AthleteSerializer(athleteToFind)
-    return Response(serializer.data)
+    filterset_fields = ('id', 'Name', 'Sex', 'Age', 'Height', 'Weight', 'Team', 'NOC', 'Games', 'Year', 'Season', 'City', 'Sport', 'Event', 'Medal')
 
 @api_view(['POST'])
 def AthletePost(request):
@@ -149,8 +134,8 @@ def ValidateFields(request):
         return Response("Sigla da nacionalidade inserida inválida, para saber qual siglas são aceitas na nacionalidade, checar o arquivo noc_regions.csv (campo NOC)", 
         status = status.HTTP_400_BAD_REQUEST)
     elif (region.count() == 0): #Checar se a região do time existe, ou seja, se ela se encontra no arquivo noc_regions.csv
-            return Response("Região inserida inválida, para saber qual siglas são aceitas na nacionalidade, checar o arquivo noc_regions.csv (campo Region)", 
-            status = status.HTTP_400_BAD_REQUEST)
+        return Response("Região inserida inválida, para saber qual siglas são aceitas na nacionalidade, checar o arquivo noc_regions.csv (campo Region)", 
+        status = status.HTTP_400_BAD_REQUEST)
 
 def CheckRepeatedAthlete(request):
         requestName = request.data.get('Name') #Campo Name da requisição
