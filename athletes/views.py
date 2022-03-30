@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 from athletes.models import Athletes, Regions
 from athletes.serializers import AthleteSerializer, FileUploadSerializer
@@ -85,7 +86,7 @@ def AthletePost(request):
         if(CheckRepeatedAthlete(request)):
             return CheckRepeatedAthlete(request)
         serializer.save()
-        return Response(serializer.data)
+        return Response(serializer.data, status.HTTP_201_CREATED)
     return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST) 
 
 @api_view(['PUT'])
@@ -105,7 +106,7 @@ def AthletePut(request, pk):
 def AthleteDelete(request, pk):
     athleteToDelete = Athletes.objects.get(id = pk)
     athleteToDelete.delete()
-    return Response('Apagado')
+    return Response('Apagado', status=status.HTTP_204_NO_CONTENT)
 
 def ValidateFields(request):
     requestSex = request.data.get('Sex') #Campo Sex da requisição
