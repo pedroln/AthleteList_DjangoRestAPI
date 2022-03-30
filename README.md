@@ -18,9 +18,9 @@
 
 - Foi se utilizado a database SQLIte (já contida em projetos Django) para guardar os modelos Atletas e Regiões (E populado com os dois CSV que constavam nos links).
 
-- Todos os testes foram feitos usando as rotas especificadas via postman, também se pode testar as rotas a partir do seu navegador, abaixo estará informado em qual link estará rodando o servidor.</h5>
+- Todos os testes foram feitos usando as rotas especificadas via postman, também se pode testar as rotas a partir do seu navegador, abaixo estará informado em qual link estará rodando o servidor.
 
-- As exceções e validações construídas foram feitas a partir de um estudo de cada campo do CSV.
+- As exceções e validações construídas foram feitas a partir de um estudo de cada campo do CSV. </h5>
 
 <h3> COMO RODAR O PROGRAMA </h3>
 
@@ -61,7 +61,7 @@
     <blockquote> "localhost:8000/athletes/uploadRegions" </blockquote>
     no campo File, clique em escolher arquivo e selecione o arquivo CSV que se encontra na pasta raiz
     <blockquote> "noc_regions.csv" </blockquote>
-    após isso, clicar no botão inferior direito POST, após alguns segundos (pois o CSV é extenso) a base de dados das regiões dos atletas estará povoada.
+    após isso, clicar no botão inferior direito POST, após alguns segundos a base de dados das regiões dos atletas estará povoada.
     <blockquote> {
     "status": "Regiões adicionadas ao banco de dados com sucesso"
     } </blockquote>
