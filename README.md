@@ -6,7 +6,7 @@
 
 - Criação dos modelos que guardam as informações do CSV na base de dados.
 
-- Listagem Geral(GET - Paginada), Listagem por ID(GET), Criação(POST), Atualização(PUT), Deleção(PUT) de um Atleta.
+- Listagem Geral e Filtrada(GET - Paginada), Criação(POST), Atualização(PUT), Deleção(PUT) de um Atleta.
 
 - Filtragem de Atleta (Paginada) por todos os seus campos ('id', 'Name', 'Sex', 'Age', 'Height', 'Weight', 'Team', 'NOC', 'Games', 'Year', 'Season', 'City', 'Sport', 'Event', 'Medal')
 
