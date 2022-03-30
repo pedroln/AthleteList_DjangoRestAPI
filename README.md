@@ -170,6 +170,8 @@
       Se nenhum atleta já tiver as exatas informações inseridas na requisição, o atleta do ID correspondente ao inserido na requisição terá suas informações                 atualizadas no banco de dados
       
       <strong>POSSÍVEIS EXCEÇÕES:</strong>
+      - ValueError: Caso o "idDoAtleta" inserido na requisição não for do tipo inteiro.
+      - DoesNotExist: Caso o "idDoAtleta" inserido na requisição não existir correspondente na base de dados.
       - Se já possuir um atleta com as exatas informações inseridas na requisição, irá retornar erro com 400 com a seguinte mensagem: "Atleta com estas informações já       está inserido na base de dados"
       - Se o campo "Sex" tiver o valor diferente de "M" ou "F", irá retornar erro 400 com a seguinte mensagem: "Sexo inserido inválido, necessário que o sexo inserido       seja Masculino (M) ou Feminino(F)"
       - Se o campo "Medalha" tiver o valor diferente de "Gold","Silver","Bronze" ou "nan", irá retornar erro 400 com a seguinte mensagem: "Tipo de Medalha inserida           inválida, necessário que a medalha inserida seja Ouro(Gold), Prata(Silver) ou Bronze(Bronze) ou Nenhuma Medalha(nan)"
