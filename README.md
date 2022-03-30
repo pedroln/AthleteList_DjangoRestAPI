@@ -70,14 +70,14 @@
 <h3> AGORA QUE A BASE DE DADOS JÁ ESTÁ POVOADA POR COMPLETO, AS SEGUINTES ROTAS PODEM SER TESTADAS </h3>
 
   - <strong>LISTAGEM DE ATLETAS COM FILTRO - ROTA - GET</strong> 
-    <blockquote>localhost:8080/athletes/getAthletes</blockquote>
+    <blockquote>localhost:8000/athletes/getAthletes</blockquote>
   
     Se estiver utilizando um navegador, vá a 
     <blockquote> localhost:8000/athletes/getAthletes </blockquote>
     Caso a base de dados dos atletas já esteja povoada, será listado todos os atletas de forma paginada (de 50 em 50), há também o botão Filters, permitindo filtrar a     lista de atletas de diversos modos, retornando atletas apenas com as informações inseridas.
 
   - <strong> ADIÇÃO DE ATLETA - ROTA - POST</strong> 
-    <blockquote>localhost:8080/athletes/postAthlete</blockquote>
+    <blockquote>localhost:8000/athletes/postAthlete</blockquote>
   
     Se estiver utilizando um navegador, vá a 
     <blockquote> localhost:8000/athletes/postAthlete </blockquote>
