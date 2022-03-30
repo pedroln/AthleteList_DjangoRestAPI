@@ -8,6 +8,7 @@ from rest_framework import status
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.generics import ListAPIView
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter, OrderingFilter
 import pandas as pd
 
 class UploadAthletesView(generics.CreateAPIView):
@@ -72,7 +73,7 @@ class AthletesListView(ListAPIView):
     serializer_class = AthleteSerializer
     pagination_class = PageNumberPagination
     pagination_class.page_size = 50
-    filter_backends = (DjangoFilterBackend,)
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_fields = ('Name', 'Sex', 'Age', 'Height', 'Weight', 'Team', 'NOC', 'Games', 'Year', 'Season', 'City', 'Sport', 'Event', 'Medal')
 
 @api_view(['GET'])
@@ -127,7 +128,9 @@ def ValidateFields(request):
     requestSeason = request.data.get('Season') #Campo Season da Requisição
     requestMedal = request.data.get('Medal') #Campo Medal da requisição
     requestNOC = request.data.get('NOC') #Campo NOC da requisição
-    region = Regions.objects.filter(NOC = requestNOC)
+    requestTeam = request.data.get('Team') #Campo Team da requisição
+    nationality = Regions.objects.filter(NOC = requestNOC)
+    region = Regions.objects.filter(Region = requestTeam)
 
     #Validação adicional de alguns campos
     if (requestSex != 'M' and requestSex != 'F'): #Checar se o sexo inserido é valido dentre as opções, se algo diferente for inserido retorna exceção
@@ -142,9 +145,12 @@ def ValidateFields(request):
     elif (int(requestYear) > 2022): #Checar se o ano é válido, só aceitar anos que sejam do ano atual para trás
         return Response("Ano inserido inválido, necessário que o ano inserido seja menor ou igual ao ano atual (2022)", 
         status = status.HTTP_400_BAD_REQUEST)
-    elif (region.count() == 0): #Checar se a sigla da nacionalidade existe, ou seja, se ela se encontra no arquivo noc_regions.csv
-        return Response("Sigla da nacionalidade inserida inválida, para saber qual siglas são aceitas na nacionalidade, checar o arquivo noc_regions.csv (campo Region)", 
+    elif (nationality.count() == 0): #Checar se a sigla da nacionalidade existe, ou seja, se ela se encontra no arquivo noc_regions.csv
+        return Response("Sigla da nacionalidade inserida inválida, para saber qual siglas são aceitas na nacionalidade, checar o arquivo noc_regions.csv (campo NOC)", 
         status = status.HTTP_400_BAD_REQUEST)
+    elif (region.count() == 0): #Checar se a região do time existe, ou seja, se ela se encontra no arquivo noc_regions.csv
+            return Response("Região inserida inválida, para saber qual siglas são aceitas na nacionalidade, checar o arquivo noc_regions.csv (campo Region)", 
+            status = status.HTTP_400_BAD_REQUEST)
 
 def CheckRepeatedAthlete(request):
         requestName = request.data.get('Name') #Campo Name da requisição
