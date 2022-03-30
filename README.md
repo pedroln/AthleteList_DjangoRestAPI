@@ -10,7 +10,7 @@
 
 - Filtragem de Atleta (Paginada) por todos os seus campos ('id', 'Name', 'Sex', 'Age', 'Height', 'Weight', 'Team', 'NOC', 'Games', 'Year', 'Season', 'City', 'Sport', 'Event', 'Medal')
 
-- Validaçoes adicionais ao atualizar ou deletar um atleta.
+- Validaçoes adicionais ao adicionar ou atualizar um atleta.
 
 <h3> INFORMAÇÕES IMPORTANTES </h3>
 
@@ -18,7 +18,7 @@
 
 - Foi se utilizado a database SQLIte (já contida em projetos Django) para guardar os modelos Atletas e Regiões (E populado com os dois CSV que constavam nos links).
 
-- Todos os testes foram feitos usando as rotas especificadas via postman, também se pode testar as rotas a partir do seu navegador, abaixo estará informado em qual link estará rodando o servidor.
+- Todos os testes de rotas foram feitos usando as rotas especificadas via postman, também se pode testar as rotas a partir do seu navegador, abaixo estará informado em qual link estará rodando o servidor.
 
 - As exceções e validações construídas foram feitas a partir de um estudo de cada campo do CSV. </h5>
 
