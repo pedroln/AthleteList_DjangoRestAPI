@@ -181,7 +181,7 @@
       - Se a região do time "Team" não constar no campo "Region" do CSV de regiões (noc_regions.csv), irá retornar o erro 400 com a seguinte mensagem: "Região inserida       inválida, para saber qual siglas são aceitas na nacionalidade, checar o arquivo noc_regions.csv (campo Region)"
 
   - <strong> DELEÇÃO DE ATLETA - ROTA - DELETE</strong> 
-    <blockquote>localhost:8080/athletes/deleteAthlete/"idDoAtleta"</blockquote>
+    <blockquote>localhost:8000/athletes/deleteAthlete/"idDoAtleta"</blockquote>
     
     Se estiver utilizando um navegador, vá a 
     <blockquote> localhost:8000/athletes/deleteAthlete/"idDoAtleta" </blockquote>
