@@ -25,6 +25,13 @@
 <h3> COMO RODAR O PROGRAMA </h3>
 
 <h5>
+  
+- Antes de iniciar a API, é necessário instalar as bibliotecas Django, Django REST Framework, Django Filters e Pandas, com o python instalado, basta rodar estes comandos na pasta raiz </h5>
+<blockquote> "pip install django"
+  "pip install djangorestframework"
+  "pip install django-filter"
+  "pip install pandas"
+  </blockquote>
 
 - Para iniciar a API, basta abrir o terminal na pasta raiz da API e rodar o comando. </h5>
 <blockquote> "python manage.py runserver" </blockquote>
