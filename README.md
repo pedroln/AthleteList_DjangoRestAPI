@@ -17,6 +17,8 @@
 <h5> 
 
 - Foi se utilizado a database SQLIte (já contida em projetos Django) para guardar os modelos Atletas e Regiões (E populado com os dois CSV que constavam nos links).
+  
+- Foi se utilizado a biblioteca pandas e django-filter para a execução de algumas funções do programa (a função de ler o dataset e a de filtrar, respectivamente).
 
 - Todos os testes de rotas foram feitos usando as rotas especificadas via postman, também se pode testar as rotas a partir do seu navegador, abaixo estará informado em qual link estará rodando o servidor.
 
